@@ -1,0 +1,28 @@
+name: main
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    outputs:
+      workflow_proceed: ${{ steps.changes.outputs.workflow_proceed }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Publish chart
+        uses: appany/helm-oci-chart-releaser@v0.3.0
+        with:
+          name: hello
+          repository: werf
+          tag: 0.1.0
+          path: charts/hello
+          registry: ghcr.io
+          registry_username: ${{ secrets.REGISTRY_USERNAME }}
+          registry_password: ${{ secrets.REGISTRY_PASSWORD }}
+
