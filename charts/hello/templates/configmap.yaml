@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: hello
 data:
-  hello: {{ include "hello" }}
+  hello: {{ include "hello" . }}
